@@ -1,3 +1,24 @@
+# view-char
+
+入力した文字を大きく表示する Svelte 5 アプリ。Rollup でビルドし、`main` へのプッシュで GitHub Actions が Firebase Hosting へデプロイする。
+
+```bash
+yarn install
+yarn dev        # 開発サーバー (rollup -w + sirv, livereload)
+yarn build      # public/build/ に出力
+yarn run check  # svelte-check で型チェック
+```
+
+## TypeScript のバージョン
+
+TypeScript は 6 系に据え置き。以下が TS 7 に対応したら上げる。
+
+- `svelte-check` — peerDependencies が `typescript: ^5.0.0 || ^6.0.0`
+- `svelte-preprocess` — peerDependencies が `typescript: ^5.0.0 || ^6.0.0`
+- `@rollup/plugin-typescript` — peer は `typescript: >=3.7.0` だが、内部で TS の JS API（`ts.createWatchCompilerHost` / `ts.createWatchProgram` 等）を使っており、JS API を持たない TS 7 では動かない
+
+---
+
 *Psst — looking for a more complete solution? Check out [SvelteKit](https://kit.svelte.dev), the official framework for building web applications of all sizes, with a beautiful development experience and flexible filesystem-based routing.*
 
 *Looking for a shareable component template instead? You can [use SvelteKit for that as well](https://kit.svelte.dev/docs#packaging) or the older [sveltejs/component-template](https://github.com/sveltejs/component-template)*
