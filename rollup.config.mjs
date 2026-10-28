@@ -1,9 +1,10 @@
+import { spawn } from 'node:child_process';
 import svelte from 'rollup-plugin-svelte';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
-import { terser } from 'rollup-plugin-terser';
-import sveltePreprocess from 'svelte-preprocess';
+import terser from '@rollup/plugin-terser';
+import { sveltePreprocess } from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 
@@ -19,7 +20,7 @@ function serve() {
 	return {
 		writeBundle() {
 			if (server) return;
-			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
+			server = spawn('npm', ['run', 'start', '--', '--dev'], {
 				stdio: ['ignore', 'inherit', 'inherit'],
 				shell: true
 			});
@@ -57,11 +58,12 @@ export default {
 		// https://github.com/rollup/plugins/tree/master/packages/commonjs
 		resolve({
 			browser: true,
-			dedupe: ['svelte']
+			dedupe: ['svelte'],
+			exportConditions: ['svelte']
 		}),
 		commonjs(),
 		typescript({
-			sourceMap: !production,
+			sourceMap: true,
 			inlineSources: !production
 		}),
 
@@ -77,6 +79,16 @@ export default {
 		// instead of npm run dev), minify
 		production && terser()
 	],
+	onwarn(warning, warn) {
+		// Svelte's internal runtime contains intentional circular imports
+		if (
+			warning.code === 'CIRCULAR_DEPENDENCY' &&
+			warning.ids?.every((id) => id.includes('node_modules'))
+		) {
+			return;
+		}
+		warn(warning);
+	},
 	watch: {
 		clearScreen: false
 	}

@@ -1,6 +1,6 @@
 <script lang="ts">
-  let word = "鸞";
-  let size = 300;
+  let word = $state("鸞");
+  let size = $state(300);
 
   const onFocus = (e: FocusEvent) => {
     const it = e.currentTarget as HTMLInputElement;
@@ -10,11 +10,12 @@
 
 <main>
   <div class="inputFields">
+    <!-- svelte-ignore a11y_autofocus -->
     <input
       type="text"
       bind:value={word}
       autofocus
-      on:focus={onFocus}
+      onfocus={onFocus}
       placeholder="文字を入力してください。"
     />
     <input type="range" bind:value={size} min="7" max="1000" />
