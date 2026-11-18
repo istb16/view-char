@@ -21,7 +21,7 @@ input {
 	font: inherit;
 	padding: 0.5em 0.75em;
 	box-sizing: border-box;
-	border: 1px solid var(--tk-line);
+	border: 1px solid var(--tk-line-strong);
 	border-radius: var(--tk-radius-sm);
 	background: var(--tk-surface);
 	color: var(--tk-ink);
