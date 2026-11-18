@@ -9,6 +9,15 @@ yarn build      # public/build/ に出力
 yarn run check  # svelte-check で型チェック
 ```
 
+## 見た目
+
+tk3.biz のアプリで共通の土台 `public/tk-base.css`（tk3 apps base）を、`public/global.css` より先に読み込む。`tk-base.css` には手を加えず、直すときは元の版を直して写し直す。
+
+- アクセントは `--tk-amber`（`global.css` の `:root`）
+- 端末の設定（`prefers-color-scheme`）に従って明るい配色と暗い配色を切り替える。切り替えボタンはない
+- 色は `--tk-*` の変数を使い、コンポーネントに色の値を直に書かない
+- アイコンは `public/icon.svg`・`public/icon-32.png`・`public/apple-touch-icon.png`
+
 ## TypeScript のバージョン
 
 TypeScript は 6 系に据え置き。以下が TS 7 に対応したら上げる。
